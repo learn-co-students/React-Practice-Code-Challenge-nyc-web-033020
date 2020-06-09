@@ -28,6 +28,7 @@ class App extends Component {
     let nextSushi = this.state.nextSushiIndex;
 
     for (let i = 0; i < 4; i++) {
+      if (!this.state.allSushi[nextSushi]) nextSushi = 0;
       arr.push(this.state.allSushi[nextSushi]);
       nextSushi++;
     }
@@ -45,6 +46,11 @@ class App extends Component {
     });
   };
 
+  depositMoney = (money) => {
+    const total = this.state.fatStacks + Number(money);
+    this.setState({ fatStacks: total });
+  };
+
   render() {
     return (
       <div className="app">
@@ -52,8 +58,13 @@ class App extends Component {
           sushi={this.state.displayedSushi}
           moreSushi={this.displaySushi}
           handleTable={this.handleTable}
+          money={this.state.fatStacks}
         />
-        <Table money={this.state.fatStacks} plates={this.state.plates} />
+        <Table
+          money={this.state.fatStacks}
+          plates={this.state.plates}
+          depositMoney={this.depositMoney}
+        />
       </div>
     );
   }

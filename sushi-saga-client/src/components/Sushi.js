@@ -17,7 +17,7 @@ class Sushi extends Component {
         <div
           className="plate"
           onClick={() => {
-            if (!this.state.eaten) {
+            if (!this.state.eaten && this.props.money >= sushi.price) {
               this.eatSushi();
               this.props.handleTable(sushi);
             }

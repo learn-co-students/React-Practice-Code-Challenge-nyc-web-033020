@@ -1,32 +1,29 @@
-import React, { Fragment } from 'react'
+import React, { Fragment } from "react";
+import Form from "../components/form";
 
 const Table = (props) => {
-
   const renderPlates = (array) => {
     return array.map((x, index) => {
-      return <div className="empty-plate" style={{ top: -7 * index }}/>
-    })
-  }
+      return (
+        <div
+          key={props.plates[index].id}
+          className="empty-plate"
+          style={{ top: -7 * index }}
+        />
+      );
+    });
+  };
 
   return (
     <Fragment>
-      <h1 className="remaining">
-        You have: ${ /* Give me how much money I have left */ } remaining!
-      </h1>
+      <h1 className="remaining">You have: ${props.money} remaining!</h1>
       <div className="table">
-        <div className="stack">
-          {
-            /* 
-               renderPlates takes an array 
-               and renders an empty plate
-               for every element in the array
-            */
-            renderPlates([])
-          }
-        </div>
+        <div className="stack">{renderPlates(props.plates)}</div>
       </div>
+      <Form depositMoney={props.depositMoney} />
     </Fragment>
-  )
-}
+  );
+};
 
-export default Table
+export default Table;
+

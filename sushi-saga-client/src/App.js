@@ -26,7 +26,12 @@ class App extends Component {
   fourAtATime = (whereToStart, whereToStop) => {
     const sushis = this.state.sushis.slice()
     let showSushis = sushis.splice(whereToStart, whereToStop)
+    if (showSushis.length == 0){
+      let startAgain = this.state.sushis.splice(0, 4)
+      return startAgain
+    }  else {
     return showSushis
+    }
   }
 
   nextForSushis = () => {
@@ -60,6 +65,7 @@ class App extends Component {
   }
 
   render() {
+    console.log(this.fourAtATime(this.state.firstSushiShown, this.state.lastSushiShow))
     return (
       <div className='app'>
         <SushiContainer sushis={this.fourAtATime(this.state.firstSushiShown, this.state.lastSushiShow)} nextForSushis={this.nextForSushis} eatSushi={this.eatSushi}/>

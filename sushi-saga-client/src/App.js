@@ -11,7 +11,10 @@ class App extends Component {
     sushis: [ ],
     firstSushiShown: 0, 
     lastSushiShow: 4,
-    sushiEaten: []
+    sushiEaten: [],
+    moneyLeft: 120,
+    totalPrice: 0,
+    additionalMoney: ''
   }
 
   componentDidMount(){
@@ -30,23 +33,40 @@ class App extends Component {
    this.setState({ firstSushiShown: this.state.firstSushiShown + 4 })  
   }
 
+  addYourMoney = (e) => {
+     this.setState({ [e.target.name]: e.target.value })
+  }
+
+  addMoneyToState = () => {
+    let money = parseInt(this.state.additionalMoney)
+    this.setState({ moneyLeft: this.state.moneyLeft + money})
+    this.setState({ additionalMoney: '' })
+  }
+
   eatSushi = (sushiId) => {
-    const sushisToChange = this.state.sushis.slice()
-    let eastenSushi = this.state.sushis.find(sushi => sushi.id === sushiId)
-    let index = this.state.sushis.indexOf(eastenSushi)
-    this.setState({ sushiEaten: [...this.state.sushiEaten, eastenSushi]})
-    eastenSushi.img_url = null 
-    sushisToChange[index] = eastenSushi
-    this.setState({ sushis: sushisToChange })
+
+    if (this.state.moneyLeft < 20){
+      alert('OUT OF MONEY!')
+    } else {
+        const sushisToChange = this.state.sushis.slice()
+        let eastenSushi = this.state.sushis.find(sushi => sushi.id === sushiId)
+        let index = this.state.sushis.indexOf(eastenSushi)
+        this.setState({ sushiEaten: [...this.state.sushiEaten, eastenSushi]})
+        this.setState({ totalPrice: this.state.totalPrice + eastenSushi.price})
+        this.setState({ moneyLeft: this.state.moneyLeft - eastenSushi.price})
+        eastenSushi.img_url = null 
+        sushisToChange[index] = eastenSushi
+        this.setState({ sushis: sushisToChange })
+    }
   }
 
   render() {
     return (
-      <div className="app">
+      <div className='app'>
         <SushiContainer sushis={this.fourAtATime(this.state.firstSushiShown, this.state.lastSushiShow)} nextForSushis={this.nextForSushis} eatSushi={this.eatSushi}/>
-        <Table eatenSushis={this.state.sushiEaten}/>
+        <Table addMoneyToState={this.addMoneyToState} onChange={this.addYourMoney} additionalMoney={this.state.additionalMoney} eatenSushis={this.state.sushiEaten} moneyLeft={this.state.moneyLeft} totalPrice={this.state.totalPrice}/>
       </div>
-    );
+    )
   }
 }
 

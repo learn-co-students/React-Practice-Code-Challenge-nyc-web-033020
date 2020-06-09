@@ -44,12 +44,11 @@ class App extends Component {
   }
 
   eatSushi = (sushiId) => {
-
-    if (this.state.moneyLeft < 20){
+    let eastenSushi = this.state.sushis.find(sushi => sushi.id === sushiId)
+    if (this.state.moneyLeft < eastenSushi.price){
       alert('OUT OF MONEY!')
     } else {
         const sushisToChange = this.state.sushis.slice()
-        let eastenSushi = this.state.sushis.find(sushi => sushi.id === sushiId)
         let index = this.state.sushis.indexOf(eastenSushi)
         this.setState({ sushiEaten: [...this.state.sushiEaten, eastenSushi]})
         this.setState({ totalPrice: this.state.totalPrice + eastenSushi.price})

@@ -2,32 +2,19 @@ import React from 'react'
 
 
 class Sushi extends React.Component {
-  state = {
-    eaten: false
-  }
-
-  eatenHandler = () => {
-    this.setState({
-      eaten: !this.state.eaten
-    })
-  }
-
-  clickAction = (e) => {
-    this.eatenHandler()
-    this.props.eatenSushi(e.id)
-  }
+  
 
   render() {
-    const { id, name, img_url, price, eatenSushi} = this.props
-    console.log(this.props)
+    const { id, name, img_url, price, eatSushi, eatenSushi} = this.props
+    // console.log(this.props)
     return (
-      <div id={id} className="sushi">
-        <div className="plate" 
-            onClick={() =>this.clickAction}>
-          { this.state.eaten ?
-              false
+      <div className="sushi"
+        onClick={() => eatSushi(id , price)}>
+        <div className="plate">
+          { eatenSushi.includes(id) ?
+              null
             :
-              <img src={img_url} width="100%" />
+              <img  src={img_url} width="100%" />
           }
         </div>
         <h4 className="sushi-details">
